@@ -1,4 +1,4 @@
-:root {
+/* :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
@@ -65,4 +65,80 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
+} */
+
+@import "tailwindcss";
+
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap");
+
+body {
+  font-family: "Roboto", sans-serif;
 }
+
+#root {
+  scroll-behavior: smooth;
+}
+
+/* === 1️⃣ Global white background for all normal dialogs === */
+.MuiDialog-paper:not(.logout-dialog) {
+  background-color: #fff !important;
+  color: #000 !important;
+  border-radius: 1rem !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* === 2️⃣ Slightly dimmed backdrop for dialogs === */
+.MuiBackdrop-root {
+  background-color: rgba(0, 0, 0, 0.4) !important;
+}
+
+/* === 3️⃣ Ensure dialog content inside normal dialogs is white === */
+.MuiDialogContent-root:not(.logout-dialog .MuiDialogContent-root) {
+  background-color: #fff !important;
+  color: #000 !important;
+}
+
+/* === 4️⃣ Make sure Snackbar layers are on top === */
+.MuiSnackbar-root {
+  z-index: 9999 !important;
+}
+
+/* === 5️⃣ Force solid white for all Snackbars (MUI Alerts) === */
+.MuiSnackbar-root,
+.MuiSnackbarContent-root,
+.MuiAlert-root {
+  background: #fff !important;
+  color: #000 !important;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1) !important;
+  border-radius: 8px !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border: none !important;
+  opacity: 1 !important;
+}
+
+/* === 6️⃣ React Toastify global overrides === */
+.Toastify__toast-container,
+.Toastify__toast,
+.Toastify__toast-body {
+  background: #fff !important;
+  color: #000 !important;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1) !important;
+  border-radius: 8px !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border: none !important;
+  opacity: 1 !important;
+}
+
+/* === 7️⃣ Toastify progress bar color (brand red) === */
+.Toastify__progress-bar {
+  background: #cc0000 !important;
+}
+
+/* === 8️⃣ Optional: Toastify close button hover fix === */
+.Toastify__close-button:hover {
+  background: rgba(0, 0, 0, 0.05) !important;
+}
+
+/* ✅ Logout dialog stays glassy — handled separately in logout CSS */

@@ -7,6 +7,8 @@ import {
 import { lazy } from "react";
 import { LayoutContainer } from "../shared/layout/layout-container";
 import { authRoutes } from "../features/auth/routes";
+import { contactRoutes } from "../features/contact-us/routes";
+import { aboutRoutes } from "../features/about-us/routes";
 
 const NotFoundPage = lazy(() => import("../shared/pages/not-found-page"));
 
@@ -21,6 +23,8 @@ const routes = [
 
     children: [
       ...authRoutes,
+      ...contactRoutes,
+      ...aboutRoutes,
       {
         path: "*",
         element: <NotFoundPage />,
@@ -29,7 +33,7 @@ const routes = [
   },
 ];
 
-const router = createBrowserRouter(routes, { basename: "/E-commerce-d" });
+const router = createBrowserRouter(routes);
 export function AppRouterProvider() {
   return <RouterProvider router={router} />;
 }
