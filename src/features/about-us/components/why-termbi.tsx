@@ -8,12 +8,12 @@ const WhyTermbi: React.FC = () => {
         {/* Decorative Circles */}
 
         {/* Text Content */}
-        <h2 className="text-3xl md:text-4xl font-semibold mb-6">
-          <span className="text-red-500 font-bold">Why </span>
-          <span className="text-gray-900">
-            term<span className="text-red-500">bi</span>
-          </span>
-        </h2>
+        <img
+          src="public/images/logo.svg"
+          width="200px"
+          className="mx-auto block mb-4" /* mx-auto centers it, block ensures it takes up full width for centering to work */
+        />
+
         <p className="text-gray-700 leading-relaxed text-base md:text-lg max-w-2xl mx-auto">
           Termbi’s booking tool allows guests to check table availability in
           real time and then book a table with just a few clicks. Even outside

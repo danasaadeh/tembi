@@ -12,6 +12,8 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 
+import { appRoutes } from "../../../routes";
+
 const Navbar: React.FC = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -36,7 +38,7 @@ const Navbar: React.FC = () => {
       <Toolbar className="flex justify-between items-center px-4 md:px-16 min-h-[64px]">
         {/* Logo */}
         <div className="flex items-center space-x-1">
-          <img src="public/images/Logo.svg" width="150px" />
+          <img src="src/assets/images/logo2.svg" width="150px" />
         </div>
 
         {/* Desktop Navigation Links */}
@@ -48,7 +50,7 @@ const Navbar: React.FC = () => {
             Home
           </Link>
           <Link
-            to="/services"
+            to="/home"
             className="text-gray-300 hover:text-red-500 transition-colors"
           >
             Services

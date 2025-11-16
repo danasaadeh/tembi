@@ -5,7 +5,7 @@ const FeaturesSection: React.FC = () => {
     <section className="w-full py-20 bg-white px-6 flex flex-col items-center">
       <div className="max-w-5xl text-center md:text-left flex flex-col md:flex-row items-center gap-10">
         <div className="flex-1">
-          <h2 className="text-3xl font-semibold mb-4">
+          <h2 className="text-3xl text-center font-semibold mb-20">
             termbi <span className="text-red-500">Features</span>
           </h2>
           <h3 className="text-xl font-bold mb-2">Dashboard</h3>

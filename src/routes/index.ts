@@ -3,7 +3,7 @@ export const appRoutes = {
     login: "/login",
     signUp: "/sign-up",
   },
-  home: "/",
+  home: "/home",
   contact: "/contact",
   about: "/about",
   products: "/products",

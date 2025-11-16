@@ -9,6 +9,7 @@ import { LayoutContainer } from "../shared/layout/layout-container";
 import { authRoutes } from "../features/auth/routes";
 import { contactRoutes } from "../features/contact-us/routes";
 import { aboutRoutes } from "../features/about-us/routes";
+import { homeRoutes } from "../features/home/routes";
 
 const NotFoundPage = lazy(() => import("../shared/pages/not-found-page"));
 
@@ -25,6 +26,8 @@ const routes = [
       ...authRoutes,
       ...contactRoutes,
       ...aboutRoutes,
+      ...homeRoutes,
+
       {
         path: "*",
         element: <NotFoundPage />,
