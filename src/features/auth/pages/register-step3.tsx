@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Button, TextField, IconButton, InputAdornment } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import AuthLayout from "../../../shared/layout/auth-layout";
+import { useNavigate } from "react-router-dom";
+import StepIndicator from "../components/sign-up-form/step-indicator";
 
 const RegisterStep3: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -15,38 +17,16 @@ const RegisterStep3: React.FC = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const navigate = useNavigate();
+
   const handleSubmit = () => {
-    // Registration final step logic here
-    console.log("Registration data:", formData);
+    navigate("/sign-up/success");
   };
 
   return (
     <AuthLayout>
       {/* Progress Steps */}
-      <div className="flex justify-center items-center mb-10">
-        {/* Step 1 */}
-        <div className="flex items-center">
-          <div className="w-8 h-8 flex items-center justify-center rounded-full bg-red-500 text-white font-medium">
-            1
-          </div>
-          <div className="w-20 h-[2px] bg-gray-300 mx-2"></div>
-        </div>
-
-        {/* Step 2 */}
-        <div className="flex items-center">
-          <div className="w-8 h-8 flex items-center justify-center rounded-full bg-red-500 text-white font-medium">
-            2
-          </div>
-          <div className="w-20 h-[2px] bg-gray-300 mx-2"></div>
-        </div>
-
-        {/* Step 3 (Active) */}
-        <div className="flex items-center">
-          <div className="w-8 h-8 flex items-center justify-center rounded-full bg-red-500 text-white font-medium">
-            3
-          </div>
-        </div>
-      </div>
+      <StepIndicator currentStep={3} />
 
       {/* Title */}
       <h2 className="text-2xl md:text-3xl font-semibold text-center mb-10">

@@ -4,9 +4,14 @@ import { Button, TextField } from "@mui/material";
 import "react-phone-input-2/lib/style.css";
 import PhoneInput from "react-phone-input-2";
 import StepIndicator from "./step-indicator";
+import { useNavigate } from "react-router-dom";
 
 const RestaurantFormStep1: React.FC = () => {
   const [phone, setPhone] = React.useState("");
+  const navigate = useNavigate(); // Get the navigate function
+  const handleNext = () => {
+    navigate("/sign-up/step2"); // Navigate to the next step
+  };
 
   return (
     <div>
@@ -59,6 +64,7 @@ const RestaurantFormStep1: React.FC = () => {
         </div>
 
         <Button
+          onClick={handleNext}
           fullWidth
           variant="contained"
           size="large"

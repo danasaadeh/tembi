@@ -100,7 +100,7 @@ const Login: React.FC = () => {
         <p className="text-center text-sm text-gray-700 mt-6">
           New in termbi?{" "}
           <Link
-            to="/register"
+            to="/sign-up/step1"
             className="text-red-500 font-medium hover:underline"
           >
             Register

@@ -3,6 +3,8 @@ import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/bootstrap.css";
 import { Button, TextField } from "@mui/material";
 import AuthLayout from "../../../shared/layout/auth-layout";
+import { useNavigate } from "react-router-dom";
+import StepIndicator from "../components/sign-up-form/step-indicator";
 
 const RegisterStep2: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -15,38 +17,15 @@ const RegisterStep2: React.FC = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleNext = () => {
-    // Proceed to step 3 logic
-    console.log(formData);
-  };
+  const navigate = useNavigate();
 
+  const handleNext = () => {
+    navigate("/sign-up/step3");
+  };
   return (
     <AuthLayout>
       {/* Progress Steps */}
-      <div className="flex justify-center items-center mb-10">
-        {/* Step 1 */}
-        <div className="flex items-center">
-          <div className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-300 text-white font-medium">
-            1
-          </div>
-          <div className="w-20 h-[2px] bg-gray-300 mx-2"></div>
-        </div>
-
-        {/* Step 2 (Active) */}
-        <div className="flex items-center">
-          <div className="w-8 h-8 flex items-center justify-center rounded-full bg-red-500 text-white font-medium">
-            2
-          </div>
-          <div className="w-20 h-[2px] bg-gray-300 mx-2"></div>
-        </div>
-
-        {/* Step 3 */}
-        <div className="flex items-center">
-          <div className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-300 text-white font-medium">
-            3
-          </div>
-        </div>
-      </div>
+      <StepIndicator currentStep={2} />
 
       {/* Title */}
       <h2 className="text-2xl md:text-3xl font-semibold text-center mb-10">

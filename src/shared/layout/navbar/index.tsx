@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   AppBar,
   Toolbar,
@@ -9,10 +9,8 @@ import {
 } from "@mui/material";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import MenuIcon from "@mui/icons-material/Menu";
-import { Link } from "react-router-dom";
-import { useState } from "react";
-
-import { appRoutes } from "../../../routes";
+import { Link } from "react-router-dom"; // Import Link from react-router-dom
+import { appRoutes } from "../../../routes"; // Keep this if you're managing routes from an external file
 
 const Navbar: React.FC = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -38,7 +36,7 @@ const Navbar: React.FC = () => {
       <Toolbar className="flex justify-between items-center px-4 md:px-16 min-h-[64px]">
         {/* Logo */}
         <div className="flex items-center space-x-1">
-          <img src="src/assets/images/logo2.svg" width="150px" />
+          <img src="src/assets/images/logo2.svg" width="150px" alt="Logo" />
         </div>
 
         {/* Desktop Navigation Links */}
@@ -100,22 +98,26 @@ const Navbar: React.FC = () => {
           </div>
 
           {/* Login Button */}
-          <Button
-            variant="outlined"
-            sx={{
-              borderColor: "#fff",
-              color: "#fff",
-              textTransform: "none",
-              borderRadius: "6px",
-              px: 3,
-              "&:hover": {
-                borderColor: "#f87171",
-                backgroundColor: "#f8717115",
-              },
-            }}
-          >
-            Log in
-          </Button>
+          <Link to="/login">
+            {" "}
+            {/* Wrap the Login button in Link */}
+            <Button
+              variant="outlined"
+              sx={{
+                borderColor: "#fff",
+                color: "#fff",
+                textTransform: "none",
+                borderRadius: "6px",
+                px: 3,
+                "&:hover": {
+                  borderColor: "#f87171",
+                  backgroundColor: "#f8717115",
+                },
+              }}
+            >
+              Log in
+            </Button>
+          </Link>
 
           {/* Mobile Menu Button */}
           <IconButton
