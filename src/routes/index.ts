@@ -14,4 +14,5 @@ export const appRoutes = {
   order: "/order",
   booking: "/booking",
   reviews: "/reviews",
+  reserve: "/reserve-details",
 };

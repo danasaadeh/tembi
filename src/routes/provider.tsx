@@ -18,6 +18,7 @@ import { profileRoutes } from "../features/profile/routes";
 import { orderRoutes } from "../features/my-order/routes";
 import { bookingRoutes } from "../features/my-bookings/routes";
 import { reviewRoutes } from "../features/my-reviews/routes";
+import { reserveRoutes } from "../features/reserve-details/routes";
 
 const NotFoundPage = lazy(() => import("../shared/pages/not-found-page"));
 
@@ -43,6 +44,7 @@ const routes = [
       ...orderRoutes,
       ...bookingRoutes,
       ...reviewRoutes,
+      ...reserveRoutes,
 
       {
         path: "*",
