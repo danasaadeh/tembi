@@ -1,14 +1,14 @@
-type AuthPayload = {
+export type AuthPayload = {
   email: string;
   password: string;
 };
 
-type AuthResponse = {
+export type AuthResponse = {
   access_token: string;
   refresh_token: string;
 };
 
-type UserProfile = {
+export type UserProfile = {
   id: number;
   email: string;
   name: string;

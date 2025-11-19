@@ -1,5 +1,6 @@
 import { httpClient } from "../../../lib/axios";
 import { userStorage } from "../storage";
+import type { AuthPayload, AuthResponse, UserProfile } from "../types";
 
 class AuthServices {
   #endPoint = "/auth";

@@ -10,6 +10,14 @@ import { authRoutes } from "../features/auth/routes";
 import { contactRoutes } from "../features/contact-us/routes";
 import { aboutRoutes } from "../features/about-us/routes";
 import { homeRoutes } from "../features/home/routes";
+import { cartRoutes } from "../features/cart/routes";
+import { checkoutRoutes } from "../features/check-out/routes";
+import { placeOrderRoutes } from "../features/place-order/routes";
+import { confirmRoutes } from "../features/confirm/routes";
+import { profileRoutes } from "../features/profile/routes";
+import { orderRoutes } from "../features/my-order/routes";
+import { bookingRoutes } from "../features/my-bookings/routes";
+import { reviewRoutes } from "../features/my-reviews/routes";
 
 const NotFoundPage = lazy(() => import("../shared/pages/not-found-page"));
 
@@ -27,6 +35,14 @@ const routes = [
       ...contactRoutes,
       ...aboutRoutes,
       ...homeRoutes,
+      ...cartRoutes,
+      ...checkoutRoutes,
+      ...placeOrderRoutes,
+      ...confirmRoutes,
+      ...profileRoutes,
+      ...orderRoutes,
+      ...bookingRoutes,
+      ...reviewRoutes,
 
       {
         path: "*",

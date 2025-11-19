@@ -5,6 +5,6 @@ export function logoutHelper() {
   userStorage.remove();
 
   // Use the correct base for GitHub Pages
-  const base = import.meta.env.BASE_URL || "/E-commerce-d/";
+  const base = import.meta.env.BASE_URL;
   window.location.href = `${base.replace(/\/$/, "")}${appRoutes.auth.login}`;
 }

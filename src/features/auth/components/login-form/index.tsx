@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { TextField, IconButton, InputAdornment, Button } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import AuthLayout from "../../../../shared/layout/auth-layout";
 
 const Login: React.FC = () => {
@@ -10,11 +10,14 @@ const Login: React.FC = () => {
   const [password, setPassword] = useState("");
 
   const handleTogglePassword = () => setShowPassword((prev) => !prev);
+  const navigate = useNavigate(); // Get the navigate function
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
     // TODO: Integrate with axios + react-query
     console.log({ email, password });
+    navigate("/home"); // Navigate to the next step
   };
 
   return (

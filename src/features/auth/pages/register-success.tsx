@@ -13,7 +13,7 @@ const RegisterSuccess: React.FC = () => {
         </h1>
 
         {/* Step Indicator */}
-        <StepIndicator currentStep={3} />
+        <StepIndicator currentStep="success" />
 
         {/* Success Message */}
         <div className="mb-6">
