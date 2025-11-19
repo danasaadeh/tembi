@@ -12,7 +12,13 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { Link } from "react-router-dom"; // Import Link from react-router-dom
 import { appRoutes } from "../../../routes"; // Keep this if you're managing routes from an external file
 
-const Navbar: React.FC = () => {
+const Navbar: React.FC<{
+  onOpenLogin: () => void;
+  // onOpenSignup: () => void
+}> = ({
+  onOpenLogin,
+  // onOpenSignup
+}) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -47,12 +53,23 @@ const Navbar: React.FC = () => {
           >
             Home
           </Link>
-          <Link
+          <button
+            className="text-gray-300 hover:text-red-500"
+            onClick={() => {
+              onOpenLogin();
+              // onOpenSignup();
+              setMobileOpen(false);
+            }}
+          >
+            Services
+          </button>
+
+          {/* <Link
             to="/home"
             className="text-gray-300 hover:text-red-500 transition-colors"
           >
             Services
-          </Link>
+          </Link> */}
           <Link
             to="/about"
             className="text-gray-300 hover:text-red-500 transition-colors"

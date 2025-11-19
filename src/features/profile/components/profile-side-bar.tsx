@@ -20,22 +20,22 @@ const ProfileSidebar: React.FC<ProfileSidebarProps> = ({ user, onSignOut }) => {
     {
       label: "Manage Profile",
       icon: PersonOutlineIcon,
-      path: "/profile/manage",
+      path: "/profile",
     },
     {
       label: "My Order",
       icon: ReceiptLongOutlinedIcon,
-      path: "/profile/orders",
+      path: "/order",
     },
     {
       label: "My bookings",
       icon: BookmarkBorderOutlinedIcon,
-      path: "/profile/bookings",
+      path: "/booking",
     },
     {
       label: "My Reviews",
       icon: StarBorderOutlinedIcon,
-      path: "/profile/reviews",
+      path: "/reviews",
     },
   ];
 
