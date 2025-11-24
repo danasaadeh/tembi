@@ -9,7 +9,11 @@ const Footer: React.FC = () => {
       <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
         {/* Logo and Socials */}
         <div>
-          <img src="public/images/logo.svg" className="mb-5" width="150px" />
+          <img
+            src="src/assets/images/logo2.svg"
+            className="mb-5"
+            width="150px"
+          />
           <p className="text-sm mb-4">Keep in touch</p>
           <div className="flex space-x-3">
             <a href="#" className="hover:text-red-500">
