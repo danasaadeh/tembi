@@ -9,15 +9,15 @@ import {
 } from "@mui/material";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import MenuIcon from "@mui/icons-material/Menu";
-import { Link } from "react-router-dom"; // Import Link from react-router-dom
+import { Link, useNavigate } from "react-router-dom"; // Import Link from react-router-dom
 import { appRoutes } from "../../../routes"; // Keep this if you're managing routes from an external file
 
 const Navbar: React.FC<{
-  onOpenLogin: () => void;
-  // onOpenSignup: () => void
+  // onOpenLogin: () => void;
+  onOpenSignup: () => void;
 }> = ({
-  onOpenLogin,
-  // onOpenSignup
+  // onOpenLogin,
+  onOpenSignup,
 }) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -28,6 +28,11 @@ const Navbar: React.FC<{
 
   const handleMenuClose = () => {
     setAnchorEl(null);
+  };
+  const navigate = useNavigate();
+
+  const handleNext = () => {
+    navigate("/login");
   };
 
   return (
@@ -48,7 +53,7 @@ const Navbar: React.FC<{
         {/* Desktop Navigation Links */}
         <div className="hidden md:flex space-x-8 text-sm">
           <Link
-            to="/reserve-details"
+            to="/home"
             className="text-gray-300 hover:text-red-500 transition-colors"
           >
             Home
@@ -56,8 +61,8 @@ const Navbar: React.FC<{
           <button
             className="text-gray-300 hover:text-red-500"
             onClick={() => {
-              onOpenLogin();
-              // onOpenSignup();
+              // onOpenLogin();
+              onOpenSignup();
               setMobileOpen(false);
             }}
           >
@@ -115,26 +120,24 @@ const Navbar: React.FC<{
           </div>
 
           {/* Login Button */}
-          <Link to="/login">
-            {" "}
-            {/* Wrap the Login button in Link */}
-            <Button
-              variant="outlined"
-              sx={{
-                borderColor: "#fff",
-                color: "#fff",
-                textTransform: "none",
-                borderRadius: "6px",
-                px: 3,
-                "&:hover": {
-                  borderColor: "#f87171",
-                  backgroundColor: "#f8717115",
-                },
-              }}
-            >
-              Log in
-            </Button>
-          </Link>
+
+          <Button
+            onClick={handleNext}
+            variant="outlined"
+            sx={{
+              borderColor: "#fff",
+              color: "#fff",
+              textTransform: "none",
+              borderRadius: "6px",
+              px: 3,
+              "&:hover": {
+                borderColor: "#f87171",
+                backgroundColor: "#f8717115",
+              },
+            }}
+          >
+            Log in
+          </Button>
 
           {/* Mobile Menu Button */}
           <IconButton

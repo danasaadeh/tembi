@@ -14,14 +14,14 @@ export function LayoutContainer({ children }: LayoutContainerProps) {
   const location = useLocation();
 
   // Add state to control dialog
-  // const [openSignup, setOpenSignup] = useState(false);
-  const [openLogin, setOpenLogin] = useState(false);
+  const [openSignup, setOpenSignup] = useState(false);
+  // const [openLogin, setOpenLogin] = useState(false);
   return (
     <div className="flex flex-col min-h-screen">
       {/* Navbar gets callback to open dialog */}
       <Navbar
-        // onOpenSignup={() => setOpenSignup(true)}
-        onOpenLogin={() => setOpenLogin(true)}
+        onOpenSignup={() => setOpenSignup(true)}
+        // onOpenLogin={() => setOpenLogin(true)}
       />
 
       {/* Page content */}
@@ -30,8 +30,8 @@ export function LayoutContainer({ children }: LayoutContainerProps) {
       <Footer />
 
       {/* Render signup dialog */}
-      {/* <SignupDialog open={openSignup} onClose={() => setOpenSignup(false)} /> */}
-      <LoginDialog open={openLogin} onClose={() => setOpenLogin(false)} />
+      <SignupDialog open={openSignup} onClose={() => setOpenSignup(false)} />
+      {/* <LoginDialog open={openLogin} onClose={() => setOpenLogin(false)} /> */}
     </div>
   );
 }

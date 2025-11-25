@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Button from "@mui/material/Button";
 import RoomIcon from "@mui/icons-material/Room";
+import { useNavigate } from "react-router-dom";
 
 const images = [
   { src: "src/assets/images/chef.jpg", alt: "Chef at work" },
@@ -20,6 +21,11 @@ export default function HomeHero() {
     return () => clearInterval(interval);
   }, []);
 
+  const navigate = useNavigate();
+
+  const handleReserve = () => {
+    navigate("/reserve-details");
+  };
   return (
     <section className="relative w-full bg-white overflow-hidden">
       <div className="flex flex-col lg:flex-row items-center justify-between px-6 md:px-12 lg:px-16 xl:px-24 py-12 md:py-16 lg:py-20 gap-8 lg:gap-12 max-w-[1600px] mx-auto">
@@ -61,6 +67,7 @@ export default function HomeHero() {
 
           {/* CTA */}
           <Button
+            onClick={handleReserve}
             variant="contained"
             sx={{
               backgroundColor: "#ef4444",

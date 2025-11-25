@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -7,6 +7,9 @@ import {
   Button,
   IconButton,
   Divider,
+  Snackbar,
+  Alert,
+  CircularProgress,
 } from "@mui/material";
 import {
   Visibility,
@@ -16,13 +19,101 @@ import {
 } from "@mui/icons-material";
 import { motion } from "framer-motion";
 
+import { signupFormSchema } from "./config";
+import { useSignUpMutation } from "../../../features/auth/services/mutations";
+
 interface SignupDialogProps {
   open: boolean;
   onClose: () => void;
+  onSwitchToLogin?: () => void;
 }
 
-export default function SignupDialog({ open, onClose }: SignupDialogProps) {
-  const [showPassword, setShowPassword] = React.useState(false);
+export default function SignupDialog({
+  open,
+  onClose,
+  onSwitchToLogin,
+}: SignupDialogProps) {
+  const [showPassword, setShowPassword] = useState(false);
+
+  // Form state
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [password, setPassword] = useState("");
+
+  // Local error state for Yup messages
+  const [errors, setErrors] = useState<Record<string, string>>({});
+
+  // Snackbar
+  const [snackbar, setSnackbar] = useState({
+    open: false,
+    message: "",
+    severity: "success" as "success" | "error",
+  });
+
+  const handleCloseSnackbar = () =>
+    setSnackbar((prev) => ({ ...prev, open: false }));
+
+  // React Query Mutation
+  const { mutate: signUp, isPending } = useSignUpMutation();
+
+  // Submit handler
+  const handleSubmit = async () => {
+    try {
+      setErrors({});
+      await signupFormSchema.validate(
+        { name, email, phone, password },
+        { abortEarly: false }
+      );
+
+      // Process name → first + last
+      const parts = name.trim().split(" ");
+      const first_name = parts[0];
+      const last_name = parts.slice(1).join(" ") || " ";
+
+      // Final payload
+      const payload = {
+        first_name,
+        last_name,
+        email,
+        phone,
+        password,
+        password_confirmation: password,
+      };
+
+      signUp(payload, {
+        onSuccess: () => {
+          setSnackbar({
+            open: true,
+            message: "Account created! Please verify your email.",
+            severity: "success",
+          });
+
+          onClose();
+          onSwitchToLogin?.();
+        },
+        onError: (err: any) => {
+          setSnackbar({
+            open: true,
+            message: err?.message || "Signup failed.",
+            severity: "error",
+          });
+        },
+      });
+    } catch (validation: any) {
+      const newErrors: Record<string, string> = {};
+      validation.inner?.forEach((err: any) => {
+        newErrors[err.path] = err.message;
+      });
+      setErrors(newErrors);
+
+      setSnackbar({
+        open: true,
+        message: "Please check the form for errors.",
+        severity: "error",
+      });
+    }
+  };
 
   return (
     <Dialog
@@ -30,12 +121,9 @@ export default function SignupDialog({ open, onClose }: SignupDialogProps) {
       onClose={onClose}
       fullWidth
       maxWidth="xs"
-      PaperProps={{
-        className: "rounded-2xl",
-      }}
+      PaperProps={{ className: "rounded-2xl" }}
     >
       <DialogContent className="p-6">
-        {/* Animated intro */}
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
@@ -50,26 +138,42 @@ export default function SignupDialog({ open, onClose }: SignupDialogProps) {
             <TextField
               label="Name"
               fullWidth
-              variant="outlined"
-              size="medium"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              error={!!errors.name}
+              helperText={errors.name}
             />
 
             {/* Email */}
             <TextField
               label="Email"
               fullWidth
-              variant="outlined"
-              size="medium"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              error={!!errors.email}
+              helperText={errors.email}
             />
 
-            {/* Password with toggle */}
+            {/* Phone */}
+            <TextField
+              label="Phone Number"
+              fullWidth
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              error={!!errors.phone}
+              helperText={errors.phone}
+            />
+
+            {/* Password */}
             <div className="relative w-full">
               <TextField
                 label="Password"
                 type={showPassword ? "text" : "password"}
                 fullWidth
-                variant="outlined"
-                size="medium"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                error={!!errors.password}
+                helperText={errors.password}
               />
               <IconButton
                 onClick={() => setShowPassword((p) => !p)}
@@ -79,13 +183,15 @@ export default function SignupDialog({ open, onClose }: SignupDialogProps) {
               </IconButton>
             </div>
 
-            {/* Sign Up button */}
+            {/* Button */}
             <Button
               variant="contained"
               fullWidth
-              className="!bg-red-600 !py-3 !text-white rounded-lg hover:!bg-red-700 transition-all"
+              disabled={isPending}
+              onClick={handleSubmit}
+              className="!bg-red-600 !py-3 !text-white rounded-lg hover:!bg-red-700"
             >
-              Sign up
+              {isPending ? <CircularProgress size={24} /> : "Sign up"}
             </Button>
 
             {/* Divider */}
@@ -95,7 +201,7 @@ export default function SignupDialog({ open, onClose }: SignupDialogProps) {
               <Divider className="flex-1" />
             </div>
 
-            {/* Google login */}
+            {/* Social */}
             <Button
               variant="outlined"
               fullWidth
@@ -104,7 +210,6 @@ export default function SignupDialog({ open, onClose }: SignupDialogProps) {
               <Google fontSize="small" /> Continue with Google
             </Button>
 
-            {/* Facebook login */}
             <Button
               variant="outlined"
               fullWidth
@@ -114,19 +219,27 @@ export default function SignupDialog({ open, onClose }: SignupDialogProps) {
             </Button>
           </div>
 
-          {/* Footer */}
           <div className="text-center text-sm mt-4">
             Already have an account?{" "}
             <button
-              onClick={() => {
-                console.log("Open login dialog here");
-              }}
+              onClick={onSwitchToLogin}
               className="text-red-600 font-medium hover:underline"
             >
               Log in
             </button>
           </div>
         </motion.div>
+
+        {/* Snackbar */}
+        <Snackbar
+          open={snackbar.open}
+          autoHideDuration={4000}
+          onClose={handleCloseSnackbar}
+        >
+          <Alert onClose={handleCloseSnackbar} severity={snackbar.severity}>
+            {snackbar.message}
+          </Alert>
+        </Snackbar>
       </DialogContent>
     </Dialog>
   );

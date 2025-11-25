@@ -7,10 +7,32 @@ import {
   IconButton,
   InputAdornment,
   Divider,
+  Snackbar,
+  Alert,
+  CircularProgress,
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import GoogleIcon from "@mui/icons-material/Google";
 import FacebookIcon from "@mui/icons-material/Facebook";
+import * as yup from "yup";
+import { useLoginMutation } from "../../../features/auth/services/mutations";
+
+// Simple password validation (only digits, between 6 to 20 characters)
+const simplePasswordRegex = /^[0-9]{6,20}$/;
+
+const loginFormSchemaValidation = yup.object({
+  email: yup
+    .string()
+    .trim()
+    .required("Email is required")
+    .email("Please enter a valid email address"),
+
+  password: yup
+    .string()
+    .required("Password is required")
+    .matches(simplePasswordRegex, "Password must be at least 6 digits long.")
+    .max(20, "Password cannot exceed 20 characters"),
+});
 
 interface LoginDialogProps {
   open: boolean;
@@ -27,10 +49,48 @@ export default function LoginDialog({
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleLogin = (e: React.FormEvent) => {
+  // For success/error snackbar
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarSeverity, setSnackbarSeverity] = useState<"success" | "error">(
+    "success"
+  );
+
+  // Destructure useMutation hook
+  const { mutate, isPending, isError, error } = useLoginMutation();
+
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Add your login logic here
-    console.log("Login with:", { email, password });
+
+    // Validate the form using the Yup schema
+    try {
+      await loginFormSchemaValidation.validate(
+        { email, password },
+        { abortEarly: false }
+      );
+
+      // If validation succeeds, trigger the mutation
+      mutate(
+        { email, password },
+        {
+          onSuccess: () => {
+            setSnackbarMessage("Login successful!");
+            setSnackbarSeverity("success");
+            setOpenSnackbar(true);
+            onClose(); // Close the dialog on success
+          },
+          onError: (err) => {
+            setSnackbarMessage("Login failed. Please check your credentials.");
+            setSnackbarSeverity("error");
+            setOpenSnackbar(true);
+          },
+        }
+      );
+    } catch (validationError) {
+      setSnackbarMessage("Invalid input. Please check your credentials.");
+      setSnackbarSeverity("error");
+      setOpenSnackbar(true);
+    }
   };
 
   const handleGoogleLogin = () => {
@@ -41,6 +101,10 @@ export default function LoginDialog({
   const handleFacebookLogin = () => {
     // Add Facebook OAuth logic here
     console.log("Login with Facebook");
+  };
+
+  const handleCloseSnackbar = () => {
+    setOpenSnackbar(false);
   };
 
   return (
@@ -59,13 +123,12 @@ export default function LoginDialog({
       }}
     >
       <DialogContent className="px-6 py-10 sm:px-12 sm:py-14">
-        {/* Title */}
         <h2 className="text-3xl font-semibold text-center text-gray-900 mb-8">
           Log in
         </h2>
 
         {/* Login Form */}
-        <form onSubmit={handleLogin} className="space-y-10 ">
+        <form onSubmit={handleLogin} className="space-y-10">
           {/* Email Field */}
           <TextField
             fullWidth
@@ -93,10 +156,11 @@ export default function LoginDialog({
               "& .MuiOutlinedInput-input": {
                 padding: "14px 16px",
               },
-              mb: 3, // Adds margin-bottom to the TextField
+              mb: 3,
             }}
           />
 
+          {/* Password Field */}
           <TextField
             fullWidth
             placeholder="Password"
@@ -111,7 +175,6 @@ export default function LoginDialog({
                   <IconButton
                     onClick={() => setShowPassword(!showPassword)}
                     edge="end"
-                    className="text-gray-400"
                   >
                     {showPassword ? <VisibilityOff /> : <Visibility />}
                   </IconButton>
@@ -136,7 +199,7 @@ export default function LoginDialog({
               "& .MuiOutlinedInput-input": {
                 padding: "14px 16px",
               },
-              mb: 3, // Adds margin-bottom to the Password field
+              mb: 3,
             }}
           />
 
@@ -145,6 +208,7 @@ export default function LoginDialog({
             type="submit"
             fullWidth
             variant="contained"
+            disabled={isPending}
             className="bg-red-600 hover:bg-red-700 text-white font-medium py-3.5 rounded-lg normal-case text-base shadow-none"
             sx={{
               backgroundColor: "#dc2626",
@@ -159,7 +223,7 @@ export default function LoginDialog({
               boxShadow: "none",
             }}
           >
-            Log in
+            {isPending ? <CircularProgress size={24} /> : "Log in"}
           </Button>
         </form>
 
@@ -172,7 +236,6 @@ export default function LoginDialog({
 
         {/* Social Login Buttons */}
         <div className="space-y-3">
-          {/* Google Button */}
           <Button
             fullWidth
             variant="outlined"
@@ -197,7 +260,6 @@ export default function LoginDialog({
             Continue with Google
           </Button>
 
-          {/* Facebook Button */}
           <Button
             fullWidth
             variant="outlined"
@@ -224,7 +286,7 @@ export default function LoginDialog({
 
         {/* Create Account Link */}
         <div className="text-center mt-6">
-          <span className="text-gray-600 text-sm">New in termbi? </span>
+          <span className="text-gray-600 text-sm">New to Termbi? </span>
           <button
             type="button"
             onClick={onCreateAccount}
@@ -234,6 +296,17 @@ export default function LoginDialog({
           </button>
         </div>
       </DialogContent>
+
+      {/* Snackbar for Success/Error Messages */}
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={3000}
+        onClose={handleCloseSnackbar}
+      >
+        <Alert onClose={handleCloseSnackbar} severity={snackbarSeverity}>
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
     </Dialog>
   );
 }
