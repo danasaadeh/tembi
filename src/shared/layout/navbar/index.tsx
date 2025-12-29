@@ -8,19 +8,15 @@ import {
   IconButton,
 } from "@mui/material";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
-import MenuIcon from "@mui/icons-material/Menu";
-import { Link, useNavigate } from "react-router-dom"; // Import Link from react-router-dom
-import { appRoutes } from "../../../routes"; // Keep this if you're managing routes from an external file
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import { Link, useNavigate } from "react-router-dom";
+import { appRoutes } from "../../../routes";
 
 const Navbar: React.FC<{
-  // onOpenLogin: () => void;
   onOpenSignup: () => void;
-}> = ({
-  // onOpenLogin,
-  onOpenSignup,
-}) => {
+}> = ({ onOpenSignup }) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [mobileOpen, setMobileOpen] = useState(false);
+  const navigate = useNavigate();
 
   const handleMenuOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -29,69 +25,67 @@ const Navbar: React.FC<{
   const handleMenuClose = () => {
     setAnchorEl(null);
   };
-  const navigate = useNavigate();
 
-  const handleNext = () => {
-    navigate("/login");
+  const handleLogin = () => {
+    navigate(appRoutes.auth.login);
+  };
+
+  const handleProfile = () => {
+    navigate(appRoutes.profile);
   };
 
   return (
     <AppBar
       position="static"
       className="bg-[#1e1e1e] shadow-none"
-      sx={{
-        backgroundColor: "#1e1e1e",
-        boxShadow: "none",
-      }}
+      sx={{ backgroundColor: "#1e1e1e", boxShadow: "none" }}
     >
       <Toolbar className="flex justify-between items-center px-4 md:px-16 min-h-[64px]">
         {/* Logo */}
-        <div className="flex items-center space-x-1">
-          <img src="src/assets/images/logo2.svg" width="150px" alt="Logo" />
+        <div className="flex items-center">
+          <img
+            src="src/assets/images/logo2.svg"
+            width="150px"
+            alt="Logo"
+            className="cursor-pointer"
+            onClick={() => navigate(appRoutes.home)}
+          />
         </div>
 
-        {/* Desktop Navigation Links */}
+        {/* Desktop Navigation */}
         <div className="hidden md:flex space-x-8 text-sm">
           <Link
-            to="/home"
+            to={appRoutes.home}
             className="text-gray-300 hover:text-red-500 transition-colors"
           >
             Home
           </Link>
+
           <button
             className="text-gray-300 hover:text-red-500"
-            onClick={() => {
-              // onOpenLogin();
-              onOpenSignup();
-              setMobileOpen(false);
-            }}
+            onClick={onOpenSignup}
           >
             Services
           </button>
 
-          {/* <Link
-            to="/home"
-            className="text-gray-300 hover:text-red-500 transition-colors"
-          >
-            Services
-          </Link> */}
           <Link
-            to="/about"
+            to={appRoutes.about}
             className="text-gray-300 hover:text-red-500 transition-colors"
           >
             About us
           </Link>
+
           <Link
-            to="/contact"
+            to={appRoutes.contact}
             className="text-gray-300 hover:text-red-500 transition-colors"
           >
             Contact us
           </Link>
         </div>
 
-        {/* Right Side Controls */}
+        {/* Right Side */}
         <div className="flex items-center space-x-4">
-          {/* Language Selector */}
+          {/* Language */}
           <div className="flex items-center space-x-1">
             <img
               src="https://flagcdn.com/w20/us.png"
@@ -101,7 +95,7 @@ const Navbar: React.FC<{
             <IconButton
               size="small"
               onClick={handleMenuOpen}
-              className="text-gray-300 hover:text-red-500"
+              sx={{ color: "white" }}
             >
               <ArrowDropDownIcon />
             </IconButton>
@@ -119,10 +113,9 @@ const Navbar: React.FC<{
             </Menu>
           </div>
 
-          {/* Login Button */}
-
+          {/* Login */}
           <Button
-            onClick={handleNext}
+            onClick={handleLogin}
             variant="outlined"
             sx={{
               borderColor: "#fff",
@@ -139,49 +132,21 @@ const Navbar: React.FC<{
             Log in
           </Button>
 
-          {/* Mobile Menu Button */}
+          {/* Profile Icon */}
           <IconButton
-            onClick={() => setMobileOpen(!mobileOpen)}
-            className="text-white md:hidden"
+            onClick={handleProfile}
+            sx={{
+              color: "white",
+              "&:hover": {
+                color: "#f87171",
+                backgroundColor: "#f8717115",
+              },
+            }}
           >
-            <MenuIcon />
+            <AccountCircleIcon sx={{ fontSize: 30 }} />
           </IconButton>
         </div>
       </Toolbar>
-
-      {/* Mobile Menu */}
-      {mobileOpen && (
-        <div className="bg-[#1e1e1e] flex flex-col items-start px-6 py-4 space-y-4 md:hidden">
-          <Link
-            to="/"
-            className="text-gray-300 hover:text-red-500"
-            onClick={() => setMobileOpen(false)}
-          >
-            Home
-          </Link>
-          <Link
-            to="/services"
-            className="text-gray-300 hover:text-red-500"
-            onClick={() => setMobileOpen(false)}
-          >
-            Services
-          </Link>
-          <Link
-            to="/about"
-            className="text-gray-300 hover:text-red-500"
-            onClick={() => setMobileOpen(false)}
-          >
-            About us
-          </Link>
-          <Link
-            to="/contact"
-            className="text-gray-300 hover:text-red-500"
-            onClick={() => setMobileOpen(false)}
-          >
-            Contact us
-          </Link>
-        </div>
-      )}
     </AppBar>
   );
 };

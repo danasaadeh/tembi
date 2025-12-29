@@ -39,7 +39,7 @@ const ConfirmOrder: React.FC = () => {
       </h1>
 
       {/* Go Home Button */}
-      <Link to="/" className="w-full max-w-xs">
+      <Link to="/home" className="w-full max-w-xs">
         <button className="w-full bg-red-600 hover:bg-red-700 transition text-white py-3 rounded-lg font-semibold text-lg">
           Go Home
         </button>
