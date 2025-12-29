@@ -13,6 +13,7 @@ import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import type { MenuItem } from "../../types/index";
+import { useNavigate } from "react-router-dom";
 
 interface MenuItemDialogProps {
   item: MenuItem | null;
@@ -41,6 +42,8 @@ const MenuItemDialog: React.FC<MenuItemDialogProps> = ({
 
   const totalPrice = (item.price + optionsTotal) * quantity;
 
+  const navigate = useNavigate();
+
   const handleAddToCart = () => {
     console.log("Adding to cart:", {
       item,
@@ -51,6 +54,7 @@ const MenuItemDialog: React.FC<MenuItemDialogProps> = ({
     });
     // Implement Zustand cart functionality here
     onClose();
+    navigate("/cart");
   };
 
   return (
